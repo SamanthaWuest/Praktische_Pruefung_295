@@ -1,0 +1,29 @@
+commit b6a25ecb6196eab6eeba216aeefbd0c396885b0b
+Author: SamanthaWuest <samsydwuest@gmail.com>
+Date:   Fri Dec 22 15:30:29 2023 +0000
+
+    commit: end
+
+commit 3276ef39cb0070cf8b8088fca9e00cf94ea1430f
+Author: SamanthaWuest <samsydwuest@gmail.com>
+Date:   Fri Dec 22 13:51:16 2023 +0000
+
+    commit: swagger
+
+commit b612e2bcc9c74e347c9d48f7cf692d2d08c2872f
+Author: SamanthaWuest <samsydwuest@gmail.com>
+Date:   Fri Dec 22 13:04:01 2023 +0000
+
+    commit: tasks
+
+commit af7227d2e17b6d2d2e01711ffd7a2fe622c86617
+Author: SamanthaWuest <samsydwuest@gmail.com>
+Date:   Fri Dec 22 08:33:50 2023 +0000
+
+    commit: get /tasks
+
+commit 559836d0a23ef1aff193917c2898e3fb0147667f
+Author: SamanthaWuest <samsydwuest@gmail.com>
+Date:   Fri Dec 22 08:38:36 2023 +0100
+
+    first commit
