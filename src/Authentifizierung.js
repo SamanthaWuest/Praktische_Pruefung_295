@@ -6,20 +6,27 @@ const session = require('express-session');
 
 const app = express();
 const port = 3001;
+const swaggerAutogen = require('swagger-autogen')();
+const swaggerUi = require('swagger-ui-express');
+const tasks = require('./tasks');
+const swaggerDocument = require('./swagger_output.json');
 
-const birds = require('./tasks');
+const path = '/api-docs/swagger.json';
 
-app.use('/tasks', birds);
-
-// Hier lade ich die Express Middleware damit ich an meine Endpunkte in JSON Body senden kann und diese als JavaScript Objekt verfügbar werden
-app.use(express.json());
-
+swaggerAutogen('./swagger_output.json', ['./Authentifizierung.js']);
 app.use(session({
   secret: 'supersecret',
   resave: false,
   saveUninitialized: true,
   cookie: {},
 }));
+app.get('/api-docs/swagger.json', (req, res) => res.json(swaggerDocument));
+app.use('/swagger-ui', swaggerUi.serveFiles(path), swaggerUi.setup(path));
+
+app.use('/tasks', tasks);
+
+// Hier lade ich die Express Middleware damit ich an meine Endpunkte in JSON Body senden kann und diese als JavaScript Objekt verfügbar werden
+app.use(express.json());
 
 app.post('/login', (request, response) => {
   const { email, password } = request.body;

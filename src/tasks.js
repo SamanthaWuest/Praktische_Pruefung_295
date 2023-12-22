@@ -2,6 +2,8 @@
 const express = require('express');
 
 const router = express.Router();
+// eslint-disable-next-line import/no-extraneous-dependencies
+const session = require('express-session');
 
 router.get('/Authentifizierung', (request, response) => {
   response.send('Authentifizierung');
@@ -9,11 +11,12 @@ router.get('/Authentifizierung', (request, response) => {
 module.exports = router;
 const app = express();
 const port = 3001;
-// eslint-disable-next-line import/no-extraneous-dependencies
-const session = require('express-session');
+const swaggerAutogen = require('swagger-autogen')();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output.json');
 
-// Hier lade ich die Express Middleware damit ich an meine Endpunkte in JSON Body senden kann und diese als JavaScript Objekt verfügbar werden
-app.use(express.json());
+const path = '/api-docs/swagger.json';
+swaggerAutogen('./swagger_output.json', ['./tasks.js']);
 
 app.use(session({
   secret: 'supersecret',
@@ -21,6 +24,12 @@ app.use(session({
   saveUninitialized: true,
   cookie: {},
 }));
+
+app.get('/api-docs/swagger.json', (req, res) => res.json(swaggerDocument));
+app.use('/swagger-ui', swaggerUi.serveFiles(path), swaggerUi.setup(path));
+
+// Hier lade ich die Express Middleware damit ich an meine Endpunkte in JSON Body senden kann und diese als JavaScript Objekt verfügbar werden
+app.use(express.json());
 
 let tasks = [
   { id: '01', title: 'Zimmer staubsaugen' },
