@@ -2,18 +2,14 @@
 const express = require('express');
 
 const router = express.Router();
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const session = require('express-session');
 
-router.get('/Authentifizierung', (request, response) => {
-  response.send('Authentifizierung');
-});
-module.exports = router;
 const app = express();
 const port = 3001;
 const swaggerAutogen = require('swagger-autogen')();
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger_output.json');
 
 const path = '/api-docs/swagger.json';
 swaggerAutogen('./swagger_output.json', ['./tasks.js']);
@@ -25,7 +21,6 @@ app.use(session({
   cookie: {},
 }));
 
-app.get('/api-docs/swagger.json', (req, res) => res.json(swaggerDocument));
 app.use('/swagger-ui', swaggerUi.serveFiles(path), swaggerUi.setup(path));
 
 // Hier lade ich die Express Middleware damit ich an meine Endpunkte in JSON Body senden kann und diese als JavaScript Objekt verfügbar werden
@@ -64,8 +59,10 @@ app.patch('/tasks/:id', (request, response) => {
 });
 
 app.delete('/tasks/:id', (request, response) => {
+  // eslint-disable-next-line no-unused-vars
+  const returnedTask = tasks.find((task) => task.id === request.params.id);
   tasks = tasks.find((task) => task.id !== request.params.id);
-  return response.status(200).send(tasks);
+  response.send(tasks);
   // return response.status(400)
 });
 
@@ -73,3 +70,4 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Task is listening on port ${port}`);
 });
+module.exports = router;
